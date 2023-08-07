@@ -7,6 +7,7 @@ import '../../theme/app_theme.dart';
 import 'widgets/current_temp_delegate.dart';
 import 'widgets/edge_forecat_for_the_day.dart';
 import 'widgets/header_delegate.dart';
+import 'widgets/hour_forecast.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -116,11 +117,11 @@ class _MainScreenState extends State<MainScreen> {
                             Radius.circular(20),
                           ),
                         ),
-                        child: const Padding(
-                          padding: EdgeInsets.fromLTRB(15, 15, 0, 25),
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(15, 15, 0, 0),
                           child: Column(
                             children: [
-                              Padding(
+                              const Padding(
                                 padding: EdgeInsets.only(bottom: 10, right: 25),
                                 child: Text(
                                   'Ясная погода ночью и утром порывы вeтра до 6 м/с.',
@@ -130,9 +131,27 @@ class _MainScreenState extends State<MainScreen> {
                                       fontWeight: FontWeight.w500),
                                 ),
                               ),
-                              Divider(
+                              const Divider(
                                 color: Color.fromARGB(255, 155, 155, 155),
                               ),
+                              const SizedBox(height: 10),
+                              Expanded(
+                                child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: 24,
+                                  itemBuilder: (context, index) {
+                                    return const Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 15),
+                                      child: HourForecast(
+                                        hour: 12,
+                                        iconData: Icons.sunny,
+                                        temp: 37,
+                                      ),
+                                    );
+                                  },
+                                ),
+                              )
                             ],
                           ),
                         ),
