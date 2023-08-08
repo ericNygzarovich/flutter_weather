@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:weather_flutter/models/condition_model.dart';
@@ -17,12 +19,16 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
 
   Future<void> _getWeather(
       WeatherEvent event, Emitter<WeatherState> emitter) async {
-    final WeatheObject weather = await _weatherRepo.getDataAPI();
+    final WeatherObject weather = await _weatherRepo.getDataAPI();
+
     final String currenCondition =
         ConditionModel.returnCondition(weather.fact.condition)!;
     final int currentTemperature = weather.fact.temp;
     final int minTemp = weather.forecast[0].parts.night.tempMin;
     final int maxTemp = weather.forecast[0].parts.day.tempMax;
+    final List<Hour> hourForecastList = weather.forecast[0].hours;
+
+    Future.delayed(const Duration(seconds: 2));
 
     emitter(
       state.copyWith(
@@ -30,6 +36,8 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
         newTemp: currentTemperature,
         newMaxTemp: maxTemp,
         newMinTemp: minTemp,
+        newHourForecastList: hourForecastList,
+        loadUpdate: true,
       ),
     );
   }

@@ -1,20 +1,20 @@
 export 'weather_models.dart';
 
-class WeatheObject {
+class WeatherObject {
   final String nowDate;
   final Info info;
   final Fact fact;
   final List<Forecast> forecast;
 
-  WeatheObject({
+  WeatherObject({
     required this.nowDate,
     required this.info,
     required this.fact,
     required this.forecast,
   });
 
-  factory WeatheObject.fromJason(Map<String, dynamic> data) {
-    return WeatheObject(
+  factory WeatherObject.fromJason(Map<String, dynamic> data) {
+    return WeatherObject(
       nowDate: data['now_dt'],
       fact: Fact.fromJson(data['fact']),
       forecast: (data['forecasts'] as List<dynamic>)
@@ -76,7 +76,7 @@ class Fact {
   final int feelsLikes;
   final String condition;
   final dynamic windSpeed;
-  final double windGust;
+  final dynamic windGust;
   final String windDir;
   final int pressureMm;
   final int humidity;
@@ -144,7 +144,7 @@ class Forecast {
   final int moonCode;
   final String moonText;
   final Parts parts;
-  final List<Hour> housr;
+  final List<Hour> hours;
 
   Forecast({
     required this.date,
@@ -154,7 +154,7 @@ class Forecast {
     required this.sunrise,
     required this.sunset,
     required this.week,
-    required this.housr,
+    required this.hours,
   });
 
   factory Forecast.fromJson(Map<String, dynamic> data) {
@@ -166,7 +166,7 @@ class Forecast {
       sunrise: data['sunrise'],
       sunset: data['sunset'],
       week: data['week'],
-      housr: (data['hours'] as List<dynamic>)
+      hours: (data['hours'] as List<dynamic>)
           .map((dynamic element) => Hour.fromJson(element))
           .toList(),
     );
