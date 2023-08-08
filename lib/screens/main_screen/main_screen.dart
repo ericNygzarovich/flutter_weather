@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather_flutter/bloc/weather_bloc.dart';
@@ -8,6 +10,7 @@ import 'widgets/current_temp_delegate.dart';
 import 'widgets/edge_forecat_for_the_day.dart';
 import 'widgets/header_delegate.dart';
 import 'widgets/hour_forecast.dart';
+import 'widgets/ten_days_forecast.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -20,12 +23,15 @@ class _MainScreenState extends State<MainScreen> {
   late ScrollController _controller;
   //late double _scrollOffset;
 
+  Future<void> getWeather() async {}
+
   @override
   void initState() {
     super.initState();
+
     context.read<WeatherBloc>().add(GetWeather());
+
     _controller = ScrollController();
-    //_scrollOffset = 0.0;
 
     _controller.addListener(_scrollListener);
   }
@@ -45,15 +51,14 @@ class _MainScreenState extends State<MainScreen> {
         ),
         child: BlocBuilder<WeatherBloc, WeatherState>(
           builder: (context, state) {
+            if (!state.isLoading) {
+              return const LoadScreen();
+            }
+
             return Center(
               child: CustomScrollView(
                 controller: _controller,
                 slivers: [
-                  SliverList(
-                    delegate: SliverChildListDelegate(
-                      [],
-                    ),
-                  ),
                   //city name
                   SliverPersistentHeader(
                     delegate: HeaderDelegate(
@@ -106,107 +111,47 @@ class _MainScreenState extends State<MainScreen> {
                   ),
 
                   const SliverToBoxAdapter(child: SizedBox(height: 50)),
+
+                  //hourForecastComponent
                   SliverToBoxAdapter(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Container(
-                        height: 200,
-                        decoration: const BoxDecoration(
-                          color: Color.fromRGBO(57, 61, 107, 0.388),
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(20),
-                          ),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(15, 15, 0, 0),
-                          child: Column(
-                            children: [
-                              const Padding(
-                                padding: EdgeInsets.only(bottom: 10, right: 25),
-                                child: Text(
-                                  'Ясная погода ночью и утром порывы вeтра до 6 м/с.',
-                                  style: TextStyle(
-                                      color: Color.fromARGB(255, 249, 249, 249),
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              ),
-                              const Divider(
-                                color: Color.fromARGB(255, 155, 155, 155),
-                              ),
-                              const SizedBox(height: 10),
-                              Expanded(
-                                child: ListView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  itemCount: 24,
-                                  itemBuilder: (context, index) {
-                                    return const Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 15),
-                                      child: HourForecast(
-                                        hour: 12,
-                                        iconData: Icons.sunny,
-                                        temp: 37,
-                                      ),
-                                    );
-                                  },
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
+                      child: HourForecast(state: state),
+                    ),
+                  ),
+
+                  const SliverToBoxAdapter(child: SizedBox(height: 12)),
+
+                  const SliverToBoxAdapter(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      child: TenDaysForecast(),
                     ),
                   ),
                   const SliverToBoxAdapter(child: SizedBox(height: 50)),
-                  SliverToBoxAdapter(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Container(
-                        height: 190,
-                        decoration: const BoxDecoration(
-                          color: Color.fromRGBO(57, 61, 107, 0.382),
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(20),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SliverToBoxAdapter(child: SizedBox(height: 50)),
-                  SliverToBoxAdapter(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Container(
-                        height: 190,
-                        decoration: const BoxDecoration(
-                          color: Color.fromRGBO(57, 61, 107, 0.382),
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(20),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SliverToBoxAdapter(child: SizedBox(height: 50)),
-                  SliverToBoxAdapter(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Container(
-                        height: 190,
-                        decoration: const BoxDecoration(
-                          color: Color.fromRGBO(57, 61, 107, 0.382),
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(20),
-                          ),
-                        ),
-                      ),
-                    ),
-                  )
                 ],
               ),
             );
           },
+        ),
+      ),
+    );
+  }
+}
+
+class LoadScreen extends StatelessWidget {
+  const LoadScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: AppTheme.backgroundColor,
+        ),
+        child: const Center(
+          child:
+              CircularProgressIndicator.adaptive(backgroundColor: Colors.white),
         ),
       ),
     );

@@ -1,57 +1,63 @@
 import 'package:flutter/material.dart';
+import 'package:weather_flutter/bloc/weather_bloc.dart';
 
-import 'degrees_circle.dart';
+import 'hour_forecast_item.dart';
 
 class HourForecast extends StatelessWidget {
-  final int hour;
-  final IconData iconData;
-  final int temp;
+  final WeatherState state;
 
   const HourForecast({
     super.key,
-    required this.hour,
-    required this.iconData,
-    required this.temp,
+    required this.state,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(
-          '$hour',
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 15,
-            fontWeight: FontWeight.w700,
-          ),
+    return Container(
+      height: 200,
+      decoration: const BoxDecoration(
+        color: Color.fromRGBO(57, 61, 107, 0.388),
+        borderRadius: BorderRadius.all(
+          Radius.circular(20),
         ),
-        const SizedBox(height: 8),
-        Icon(
-          iconData,
-          size: 28,
-          color: const Color.fromRGBO(255, 255, 254, 1),
-        ),
-        const SizedBox(height: 8),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(15, 15, 0, 0),
+        child: Column(
           children: [
-            Text(
-              '$temp',
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 20,
-                fontWeight: FontWeight.w500,
+            const Padding(
+              padding: EdgeInsets.only(bottom: 10, right: 25),
+              child: Text(
+                'Ясная погода ночью и утром порывы вeтра до 6 м/с.',
+                style: TextStyle(
+                    color: Color.fromARGB(255, 249, 249, 249),
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500),
               ),
             ),
-            const SizedBox(width: 2),
-            CustomPaint(
-              painter: DegreesCircle(color: Colors.white, size: 5, width: 2),
-              size: const Size(0, 13),
+            const Divider(
+              color: Color.fromARGB(255, 155, 155, 155),
             ),
+            const SizedBox(height: 10),
+            Expanded(
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: state.hourForecast.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: HourForecastItem(
+                      hour: state.hourForecast[index].hour,
+                      icon: state.hourForecast[index].icon,
+                      temp: state.hourForecast[index].temp,
+                    ),
+                  );
+                },
+              ),
+            )
           ],
-        )
-      ],
+        ),
+      ),
     );
   }
 }
