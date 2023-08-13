@@ -32,8 +32,6 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
       sunriseSunsetData,
     );
 
-    Future.delayed(const Duration(seconds: 2));
-
     emitter(
       state.copyWith(
         newCondition: currenCondition,

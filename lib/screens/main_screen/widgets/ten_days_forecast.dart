@@ -39,7 +39,7 @@ class TenDaysForecast extends StatelessWidget {
             ),
             Expanded(
               child: ListView.separated(
-                physics: const NeverScrollableScrollPhysics(),
+                //physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemCount: 10,
                 itemBuilder: (context, index) {
@@ -69,7 +69,7 @@ class DayForecastItem extends StatelessWidget {
       children: [
         const Expanded(
           child: Text(
-            'Today',
+            'Пн',
             style: TextStyle(
               fontSize: 23,
               color: Color.fromRGBO(253, 251, 253, 1),
@@ -103,14 +103,11 @@ class DayForecastItem extends StatelessWidget {
           ],
         ),
         const SizedBox(width: 15),
-        const Expanded(
+        Expanded(
           child: ClipRRect(
-            borderRadius: BorderRadius.all(Radius.circular(20)),
-            child: LinearProgressIndicator(
-              minHeight: 5,
-              backgroundColor: Color.fromRGBO(81, 67, 85, 1),
-              color: Color.fromRGBO(251, 158, 15, 1),
-              value: 0.7,
+            borderRadius: const BorderRadius.all(Radius.circular(20)),
+            child: CustomPaint(
+              painter: HorizontalDisplayOfDegrees(),
             ),
           ),
         ),
@@ -124,8 +121,7 @@ class DayForecastItem extends StatelessWidget {
           ),
         ),
         CustomPaint(
-          painter: DegreesCircle(
-              color: const Color.fromRGBO(253, 251, 253, 1), size: 5, width: 2),
+          painter: DegreesCircle(color: const Color.fromRGBO(253, 251, 253, 1), size: 5, width: 2),
           size: const Size(0, 14),
         ),
         const SizedBox(width: 10),
@@ -133,3 +129,26 @@ class DayForecastItem extends StatelessWidget {
     );
   }
 }
+
+class HorizontalDisplayOfDegrees extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint();
+    paint.color = const Color.fromRGBO(251, 158, 15, 1);
+    paint.strokeWidth = 5;
+
+    canvas.drawLine(const Offset(10, 10), const Offset(10, 10), paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true;
+  }
+}
+
+//  LinearProgressIndicator(
+//               minHeight: 5,
+//               backgroundColor: Color.fromRGBO(81, 67, 85, 1),
+//               color: Color.fromRGBO(251, 158, 15, 1),
+//               value: 0.7,
+//             ),

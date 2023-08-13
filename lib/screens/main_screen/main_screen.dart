@@ -29,6 +29,7 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     super.initState();
 
+    Future.delayed(const Duration(seconds: 2));
     context.read<WeatherBloc>().add(GetWeather());
 
     _controller = ScrollController();
