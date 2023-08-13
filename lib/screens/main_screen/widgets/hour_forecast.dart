@@ -29,10 +29,7 @@ class HourForecast extends StatelessWidget {
               padding: EdgeInsets.only(bottom: 10, right: 25),
               child: Text(
                 'Ясная погода ночью и утром порывы вeтра до 6 м/с.',
-                style: TextStyle(
-                    color: Color.fromARGB(255, 249, 249, 249),
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500),
+                style: TextStyle(color: Color.fromARGB(255, 249, 249, 249), fontSize: 16, fontWeight: FontWeight.w500),
               ),
             ),
             const Divider(
@@ -47,9 +44,9 @@ class HourForecast extends StatelessWidget {
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 15),
                     child: HourForecastItem(
-                      hour: state.hourForecast[index].hour,
+                      hour: index == 0 ? 'Сейчас' : state.hourForecast[index].hour,
                       icon: state.hourForecast[index].icon,
-                      temp: state.hourForecast[index].temp,
+                      temp: index == 0 ? state.currentTemp : state.hourForecast[index].temp,
                     ),
                   );
                 },

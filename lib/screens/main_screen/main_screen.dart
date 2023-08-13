@@ -150,8 +150,7 @@ class LoadScreen extends StatelessWidget {
           gradient: AppTheme.backgroundColor,
         ),
         child: const Center(
-          child:
-              CircularProgressIndicator.adaptive(backgroundColor: Colors.white),
+          child: CircularProgressIndicator.adaptive(backgroundColor: Colors.white),
         ),
       ),
     );
