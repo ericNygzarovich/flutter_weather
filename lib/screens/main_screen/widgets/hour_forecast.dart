@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:weather_flutter/bloc/weather_bloc.dart';
 
 import 'hour_forecast_item.dart';
@@ -45,7 +46,17 @@ class HourForecast extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 15),
                     child: HourForecastItem(
                       hour: index == 0 ? 'Сейчас' : state.hourForecast[index].hour,
-                      icon: state.hourForecast[index].icon,
+                      icon: state.hourForecast[index].hour.length > 2
+                          ? Image.asset(
+                              state.hourForecast[index].icon,
+                              height: 30,
+                              width: 30,
+                            )
+                          : SvgPicture.network(
+                              'https://yastatic.net/weather/i/icons/funky/dark/${state.hourForecast[index].icon}.svg',
+                              height: 30,
+                              width: 30,
+                            ),
                       temp: index == 0 ? state.currentTemp : state.hourForecast[index].temp,
                     ),
                   );

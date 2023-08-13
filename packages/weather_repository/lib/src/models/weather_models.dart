@@ -17,9 +17,7 @@ class WeatherObject {
     return WeatherObject(
       nowDate: data['now_dt'],
       fact: Fact.fromJson(data['fact']),
-      forecast: (data['forecasts'] as List<dynamic>)
-          .map((dynamic element) => Forecast.fromJson(element))
-          .toList(),
+      forecast: (data['forecasts'] as List<dynamic>).map((dynamic element) => Forecast.fromJson(element)).toList(),
       info: Info.fromJson(data['info']),
     );
   }
@@ -166,9 +164,7 @@ class Forecast {
       sunrise: data['sunrise'],
       sunset: data['sunset'],
       week: data['week'],
-      hours: (data['hours'] as List<dynamic>)
-          .map((dynamic element) => Hour.fromJson(element))
-          .toList(),
+      hours: (data['hours'] as List<dynamic>).map((dynamic element) => Hour.fromJson(element)).toList(),
     );
   }
 }
@@ -197,54 +193,21 @@ class Parts {
 }
 
 class Hour {
-  final dynamic cloudness;
-  final int precPeriod;
-  final int precType;
-  final int hourTs;
-  final int temp;
-  final int feelsLike;
-  final int pressureMm;
-  final int pressurePa;
-  final int humidity;
-  final bool isThunder;
+  final dynamic temp;
   final String hour;
   final String icon;
-  final String condition;
-  final String windDir;
 
   Hour({
-    required this.cloudness,
-    required this.condition,
-    required this.feelsLike,
     required this.hour,
-    required this.hourTs,
-    required this.humidity,
     required this.icon,
-    required this.isThunder,
-    required this.precPeriod,
-    required this.precType,
-    required this.pressureMm,
-    required this.pressurePa,
     required this.temp,
-    required this.windDir,
   });
 
   factory Hour.fromJson(Map<String, dynamic> data) {
     return Hour(
-      cloudness: data['cloudness'],
-      condition: data['condition'],
-      feelsLike: data['feels_like'],
       hour: data['hour'],
-      hourTs: data['hour_ts'],
-      humidity: data['humidity'],
       icon: data['icon'],
-      isThunder: data['is_thunder'],
-      precPeriod: data['prec_period'],
-      precType: data['prec_type'],
-      pressureMm: data['pressure_mm'],
-      pressurePa: data['pressure_pa'],
       temp: data['temp'],
-      windDir: data['wind_dir'],
     );
   }
 }

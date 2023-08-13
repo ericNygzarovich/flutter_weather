@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-
 import 'degrees_circle.dart';
 
 class HourForecastItem extends StatelessWidget {
   final String hour;
-  final String icon;
-  final int temp;
+  final Widget icon;
+  final dynamic temp;
 
   const HourForecastItem({
     super.key,
@@ -28,8 +26,7 @@ class HourForecastItem extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 8),
-        SvgPicture.network(
-            'https://yastatic.net/weather/i/icons/funky/dark/$icon.svg'),
+        icon,
         const SizedBox(height: 8),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -43,10 +40,12 @@ class HourForecastItem extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 2),
-            CustomPaint(
-              painter: DegreesCircle(color: Colors.white, size: 5, width: 2),
-              size: const Size(0, 13),
-            ),
+            if (temp is int) ...[
+              CustomPaint(
+                painter: DegreesCircle(color: Colors.white, size: 5, width: 2),
+                size: const Size(0, 13),
+              ),
+            ]
           ],
         )
       ],
