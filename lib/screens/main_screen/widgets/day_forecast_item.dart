@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:weather_flutter/models/week_forecast_parametrs.dart';
 
 import 'degrees_circle.dart';
 import 'horizontal_display_of_degrees.dart';
@@ -9,15 +10,17 @@ class DayForecastItem extends StatelessWidget {
   final int maxTemp;
   final int minTemp;
   final String icon;
-  final bool currentTemMarker;
+  final int currentTemValue;
+  final WeekForecastParametrs weekForecastParametrs;
 
   const DayForecastItem({
     super.key,
+    required this.weekForecastParametrs,
     required this.icon,
     required this.maxTemp,
     required this.minTemp,
     required this.weekday,
-    this.currentTemMarker = false,
+    this.currentTemValue = 0,
   });
 
   @override
@@ -60,7 +63,12 @@ class DayForecastItem extends StatelessWidget {
         const SizedBox(width: 15),
         Expanded(
           child: CustomPaint(
-            painter: HorizontalDisplayOfDegrees(currentTemMarker),
+            painter: HorizontalDisplayOfDegrees(
+              currentTemValue,
+              renderParametrs: weekForecastParametrs,
+              thisDayMaxTemp: maxTemp,
+              thisDayMinTemp: minTemp,
+            ),
           ),
         ),
         const SizedBox(width: 10),

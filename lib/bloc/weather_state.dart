@@ -8,8 +8,10 @@ class WeatherState {
   final int minTemp;
   final List<Hour> hourForecast;
   final List<Forecast> forecastList;
+  final WeekForecastParametrs? weekParametrs;
 
   WeatherState({
+    this.weekParametrs,
     this.curretnCondition,
     this.currentTemp = 0,
     this.maxTemp = 0,
@@ -33,6 +35,7 @@ class WeatherState {
     List<Hour>? newHourForecastList,
     bool? loadUpdate,
     List<Forecast>? forecastList,
+    WeekForecastParametrs? newParametrs,
   }) {
     return WeatherState(
       curretnCondition: newCondition ?? curretnCondition,
@@ -42,6 +45,7 @@ class WeatherState {
       hourForecast: newHourForecastList ?? [],
       isLoading: loadUpdate ?? isLoading,
       forecastList: forecastList ?? [],
+      weekParametrs: newParametrs ?? weekParametrs,
     );
   }
 }

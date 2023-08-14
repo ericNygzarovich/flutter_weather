@@ -54,6 +54,7 @@ class TenDaysForecast extends StatelessWidget {
                   dateList = dateList.map((element) => int.parse(element)).toList();
 
                   return DayForecastItem(
+                    weekForecastParametrs: state.weekParametrs!,
                     minTemp: forecastList[index].parts.night.tempMin,
                     maxTemp: forecastList[index].parts.day.tempMax,
                     icon: forecastList[index].parts.day.icon,
@@ -64,7 +65,7 @@ class TenDaysForecast extends StatelessWidget {
                             dateList[1],
                             dateList[2],
                           ).weekday.toString(),
-                    currentTemMarker: index == 0 ? true : false,
+                    currentTemValue: index == 0 ? state.currentTemp : 0,
                   );
                 },
                 separatorBuilder: (context, index) {

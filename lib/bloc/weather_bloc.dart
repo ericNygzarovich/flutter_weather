@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:weather_flutter/models/condition_model.dart';
+import 'package:weather_flutter/models/week_forecast_parametrs.dart';
 import 'package:weather_repository/weather_repository.dart';
 
 part 'weather_event.dart';
@@ -41,8 +42,26 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
         newHourForecastList: hourForecastList,
         loadUpdate: true,
         forecastList: weather.forecast,
+        newParametrs: _weekForecastParametrs(weather.forecast),
       ),
     );
+  }
+
+  WeekForecastParametrs _weekForecastParametrs(List<Forecast> forecastList) {
+    int maxTemp = 0;
+    int minTemp = forecastList[0].parts.night.tempMin;
+
+    for (Forecast element in forecastList) {
+      if (element.parts.day.tempMax > maxTemp) {
+        maxTemp = element.parts.day.tempMax;
+      }
+
+      if (element.parts.night.tempMin < minTemp) {
+        minTemp = element.parts.night.tempMin;
+      }
+    }
+
+    return WeekForecastParametrs(maxTemp, minTemp);
   }
 
   List<Hour> _tranformationHourlyForecastList(
