@@ -29,6 +29,7 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     super.initState();
 
+    Future.delayed(const Duration(seconds: 2));
     context.read<WeatherBloc>().add(GetWeather());
 
     _controller = ScrollController();
@@ -122,10 +123,10 @@ class _MainScreenState extends State<MainScreen> {
 
                   const SliverToBoxAdapter(child: SizedBox(height: 12)),
 
-                  const SliverToBoxAdapter(
+                  SliverToBoxAdapter(
                     child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      child: TenDaysForecast(),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: TenDaysForecast(state: state),
                     ),
                   ),
                   const SliverToBoxAdapter(child: SizedBox(height: 50)),
