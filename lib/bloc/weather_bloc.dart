@@ -40,6 +40,7 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
         newMinTemp: minTemp,
         newHourForecastList: hourForecastList,
         loadUpdate: true,
+        forecastList: weather.forecast,
       ),
     );
   }

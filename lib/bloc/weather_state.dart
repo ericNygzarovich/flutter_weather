@@ -7,6 +7,7 @@ class WeatherState {
   final int maxTemp;
   final int minTemp;
   final List<Hour> hourForecast;
+  final List<Forecast> forecastList;
 
   WeatherState({
     this.curretnCondition,
@@ -15,16 +16,11 @@ class WeatherState {
     this.minTemp = 0,
     this.hourForecast = const [],
     this.isLoading = false,
+    this.forecastList = const [],
   });
 
   @override
-  bool operator ==(Object other) =>
-      other is WeatherState &&
-      other.runtimeType == runtimeType &&
-      other.currentTemp == currentTemp &&
-      other.maxTemp == maxTemp &&
-      other.minTemp == minTemp &&
-      other.curretnCondition == curretnCondition;
+  bool operator ==(Object other) => other is WeatherState && other.runtimeType == runtimeType && other.currentTemp == currentTemp && other.maxTemp == maxTemp && other.minTemp == minTemp && other.curretnCondition == curretnCondition;
 
   @override
   int get hashCode => currentTemp.hashCode;
@@ -36,6 +32,7 @@ class WeatherState {
     String? newCondition,
     List<Hour>? newHourForecastList,
     bool? loadUpdate,
+    List<Forecast>? forecastList,
   }) {
     return WeatherState(
       curretnCondition: newCondition ?? curretnCondition,
@@ -44,6 +41,7 @@ class WeatherState {
       minTemp: newMinTemp ?? minTemp,
       hourForecast: newHourForecastList ?? [],
       isLoading: loadUpdate ?? isLoading,
+      forecastList: forecastList ?? [],
     );
   }
 }
